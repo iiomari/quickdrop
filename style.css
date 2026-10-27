@@ -25,7 +25,6 @@
   --bar: rgba(242, 242, 247, 0.78);
   --hud: rgba(30, 30, 32, 0.92);
   --on-hud: #ffffff;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 28px rgba(0, 0, 0, 0.06);
   --r-card: 22px;
   --r-group: 14px;
   --font: -apple-system, BlinkMacSystemFont, "SF Arabic", "IBM Plex Sans Arabic", "Segoe UI", system-ui, sans-serif;
@@ -51,7 +50,6 @@
     --orange-soft: rgba(255, 159, 10, 0.2);
     --bar: rgba(18, 18, 20, 0.78);
     --hud: rgba(58, 58, 60, 0.94);
-    --shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
   }
 }
 
@@ -95,7 +93,7 @@ svg.ic { width: 1.18em; height: 1.18em; flex: none; fill: none; stroke: currentC
 .brand { display: inline-flex; align-items: center; gap: 10px; }
 .mark {
   width: 1.1em; height: 1.1em; border-radius: 0.27em; background: var(--brand); flex: none;
-  display: grid; place-items: center; box-shadow: 0 4px 12px rgba(10, 132, 255, 0.35);
+  display: grid; place-items: center;
 }
 .mark svg { width: 64%; height: 64%; fill: none; stroke: #fff; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; }
 .lh-sub { margin-top: 6px; }
@@ -132,7 +130,9 @@ svg.ic { width: 1.18em; height: 1.18em; flex: none; fill: none; stroke: currentC
 [dir="ltr"] .segmented[data-active="send"] .seg-thumb { transform: translateX(100%); }
 
 /* ---------- cards, grouped lists ---------- */
-.card { background: var(--elev); border-radius: var(--r-card); box-shadow: var(--shadow); padding: 22px; }
+/* Surfaces are flat and separated from the grouped background by tone alone, as in iOS inset-grouped lists.
+   Shadows are kept for what floats: the HUD, the drop overlay and the switch knob. */
+.card { background: var(--elev); border-radius: var(--r-card); padding: 22px; }
 .group { background: var(--elev); border-radius: var(--r-group); overflow: hidden; margin-top: 18px; }
 .group-footer { padding: 7px 16px 0; }
 .row {
@@ -161,13 +161,10 @@ svg.ic { width: 1.18em; height: 1.18em; flex: none; fill: none; stroke: currentC
 
 /* ---------- receive ---------- */
 .receive { position: relative; overflow: hidden; display: grid; justify-items: center; gap: 14px; padding: 34px 22px 22px; }
-.receive::before {
-  content: ""; position: absolute; inset: 0;
-  background: radial-gradient(circle at 50% 42%, var(--tint-soft), transparent 62%);
-}
+.pane-title { display: none; }
 .qr-tile {
   position: relative; padding: 14px; background: #fff; border-radius: 22px; line-height: 0;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 0 0 0.5px var(--sep);
 }
 #qr { width: 184px; height: 184px; }
 #qr img, #qr canvas { width: 100% !important; height: 100% !important; image-rendering: pixelated; }
@@ -268,7 +265,7 @@ svg.ic { width: 1.18em; height: 1.18em; flex: none; fill: none; stroke: currentC
 
 .hero {
   position: relative; overflow: hidden; width: 100%; border: 0; display: grid; justify-items: center; gap: 4px;
-  padding: 30px 20px 26px; border-radius: var(--r-card); background: var(--elev); box-shadow: var(--shadow); text-align: center;
+  padding: 30px 20px 26px; border-radius: var(--r-card); background: var(--elev); text-align: center;
   transition: box-shadow 0.15s ease, background-color 0.15s ease;
 }
 .hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 36%, var(--tint-soft), transparent 60%); }
@@ -287,7 +284,7 @@ svg.ic { width: 1.18em; height: 1.18em; flex: none; fill: none; stroke: currentC
 .hero.is-compact .avatar svg.ic { width: 24px; height: 24px; }
 .hero.is-compact .hero-title { font-size: 1rem; align-self: end; }
 .hero.is-compact .hero-hint { align-self: start; }
-.hero.is-dragover { box-shadow: inset 0 0 0 2.5px var(--brand), var(--shadow); }
+.hero.is-dragover { box-shadow: inset 0 0 0 2.5px var(--brand); }
 
 /* iPhone notice */
 .notice { background: var(--elev); border-radius: var(--r-group); }
@@ -320,7 +317,7 @@ svg.ic { width: 1.18em; height: 1.18em; flex: none; fill: none; stroke: currentC
 .item + .item::before { content: ""; position: absolute; top: 0; inset-inline: 72px 0; height: 0.5px; background: var(--sep); }
 .thumb {
   width: 44px; height: 44px; border-radius: 10px; overflow: hidden; flex: none; display: grid; place-items: center;
-  background: var(--fill); color: var(--label-2); font-family: var(--mono); font-size: 0.62rem; font-weight: 700; text-transform: uppercase; direction: ltr;
+  background: var(--fill); color: var(--label-2); font-size: 0.65rem; font-weight: 700; text-transform: uppercase; direction: ltr;
 }
 .thumb img, .thumb video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .thumb--text { font-family: var(--font); font-size: 0.706rem; text-transform: none; direction: rtl; color: var(--tint); background: var(--tint-soft); }
@@ -423,11 +420,20 @@ svg.ic { width: 1.18em; height: 1.18em; flex: none; fill: none; stroke: currentC
 .credit { display: flex; justify-content: center; margin: 14px 0 0; }
 .credit a {
   display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 999px;
-  background: var(--elev); box-shadow: var(--shadow); color: var(--label); text-decoration: none;
+  background: var(--elev); color: var(--label); text-decoration: none;
   font-size: 0.882rem; font-weight: 600; transition: transform 0.12s ease;
 }
 .credit a:active { transform: scale(0.97); }
 .credit .li { width: 20px; height: 20px; flex: none; }
+
+/* ---------- wide screens: both home panes side by side, no tabs ---------- */
+@media (min-width: 900px) {
+  .app { max-width: 960px; }
+  #home .segmented { display: none; }
+  .home-panes { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+  .home-panes > [role="tabpanel"][hidden] { display: block !important; }
+  .pane-title { display: block; justify-self: stretch; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
