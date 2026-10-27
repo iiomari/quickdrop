@@ -56,6 +56,7 @@ const ICON = {
   laptop: '<rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/>',
 };
 const icon = (k) => `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${ICON[k]}</svg>`;
+const capLabel = (text) => `<span class="cap-label">${text}</span>`;   // hidden visually on phones, kept as the button's name
 const deviceIcon = (name) => icon(/iPhone|Android/.test(name) ? 'phone' : /iPad/.test(name) ? 'tablet' : 'laptop');
 
 /* ---------- helpers ---------- */
@@ -128,10 +129,10 @@ function toast(iconKey, content) {
 
 function flashDone(btn, label, iconKey) {
   btn.classList.add('is-done');
-  btn.innerHTML = icon('check') + 'تم النسخ';
+  btn.innerHTML = icon('check') + capLabel('تم النسخ');
   setTimeout(() => {
     btn.classList.remove('is-done');
-    btn.innerHTML = icon(iconKey) + label;
+    btn.innerHTML = icon(iconKey) + capLabel(label);
   }, 1500);
 }
 
@@ -622,7 +623,7 @@ function retry(it) {
 }
 
 function addButton(it, iconKey, label, onClick, plain = false) {
-  const b = h('button', { type: 'button', class: 'capsule' + (plain ? ' capsule--plain' : ''), html: icon(iconKey) + label });
+  const b = h('button', { type: 'button', class: 'capsule' + (plain ? ' capsule--plain' : ''), html: icon(iconKey) + capLabel(label) });
   b.addEventListener('click', () => onClick(b));
   it.trail.append(b);
   return b;

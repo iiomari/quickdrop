@@ -347,9 +347,11 @@ svg.ic { width: 1.18em; height: 1.18em; flex: none; fill: none; stroke: currentC
 .ring.is-waiting { animation: breathe 1.2s ease-in-out infinite; }
 @keyframes breathe { 50% { opacity: 0.45; } }
 
+/* Phones: row actions shrink to 44px icon buttons on the same line; the label stays as their accessible name. */
 @media (max-width: 420px) {
-  .item { flex-wrap: wrap; }
-  .item-trail:has(.capsule) { width: 100%; padding-inline-start: 56px; }
+  .item-trail .capsule { width: 44px; height: 44px; min-height: 44px; padding: 0; justify-content: center; }
+  .item-trail .capsule svg.ic { width: 20px; height: 20px; }
+  .item-trail .capsule .cap-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
 
 /* iOS switch */
