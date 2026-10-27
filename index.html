@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="QuickDrop">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>QuickDrop</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a84ff'/%3E%3Cg transform='translate(4 4)' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 5v9'/%3E%3Cpath d='M8 10.5l4 4 4-4'/%3E%3Cpath d='M7 18.5h10'/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="style.css?v=6">
+</head>
+<body>
+  <div class="app">
+
+    <!-- ================= Home ================= -->
+    <section class="screen" id="home">
+      <header class="large-header">
+        <div class="lh-row">
+          <h1 class="large-title brand">
+            <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v9"/><path d="M8 10.5l4 4 4-4"/><path d="M7 18.5h10"/></svg></span>
+            <span dir="ltr">QuickDrop</span>
+          </h1>
+          <span class="pill" id="status" data-state="idle" role="status"><i aria-hidden="true"></i><span id="statusText">جارٍ التجهيز…</span></span>
+        </div>
+        <p class="subhead lh-sub">انقل الصور والفيديو والملفات بين أجهزتك مباشرة.</p>
+      </header>
+
+      <div class="segmented" id="tabs" role="tablist" aria-label="الوضع" data-active="recv">
+        <span class="seg-thumb" aria-hidden="true"></span>
+        <button type="button" role="tab" id="tabRecv" aria-controls="paneRecv" aria-selected="true">استقبال</button>
+        <button type="button" role="tab" id="tabSend" aria-controls="paneSend" aria-selected="false">إرسال</button>
+      </div>
+
+      <div id="paneRecv" role="tabpanel" aria-labelledby="tabRecv">
+        <div class="card receive">
+          <div class="radar" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="qr-tile"><div id="qr" role="img" aria-label="رمز QR للاتصال بهذا الجهاز"></div></div>
+          <p class="footnote">امسح الرمز بكاميرا الجوال، أو اكتب الرمز في الجهاز الثاني.</p>
+        </div>
+        <div class="group">
+          <div class="row code-row">
+            <div class="row-main">
+              <p class="footnote">رمز هذا الجهاز</p>
+              <div class="code" id="myCode"><span>···</span><span>···</span></div>
+            </div>
+            <button class="capsule" id="copyLink" type="button"></button>
+          </div>
+          <div class="row">
+            <span class="row-icon row-icon--gray" id="myDeviceIcon"></span>
+            <span class="row-main">هذا الجهاز</span>
+            <bdi class="row-value" id="myDevice"></bdi>
+          </div>
+        </div>
+        <p class="footnote group-footer">خلّ هذي الصفحة مفتوحة لين يوصل الجهاز الثاني.</p>
+      </div>
+
+      <div id="paneSend" role="tabpanel" aria-labelledby="tabSend" hidden>
+        <form class="card connect" id="connectForm" novalidate>
+          <h2 class="headline">اتصل بجهاز آخر</h2>
+          <p class="subhead">اكتب الرمز الظاهر في الجهاز الثاني.</p>
+          <div class="otp" id="otp">
+            <label class="sr" for="codeInput">رمز الجهاز الثاني</label>
+            <input id="codeInput" name="code" maxlength="6" autocomplete="off" autocapitalize="characters"
+                   autocorrect="off" spellcheck="false" inputmode="text" enterkeyhint="go" aria-describedby="homeMsg">
+            <span class="otp-box" aria-hidden="true"></span><span class="otp-box" aria-hidden="true"></span><span class="otp-box" aria-hidden="true"></span><span class="otp-box" aria-hidden="true"></span><span class="otp-box" aria-hidden="true"></span><span class="otp-box" aria-hidden="true"></span>
+          </div>
+          <p class="msg" id="homeMsg" aria-live="polite"></p>
+          <button class="btn btn-primary btn-block" type="submit">اتصال</button>
+        </form>
+        <div class="group">
+          <div class="row">
+            <span class="row-icon row-icon--blue" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg></span>
+            <span class="row-main">
+              <span class="headline" style="display:block">أو امسح رمز QR</span>
+              <span class="footnote">من الجوال: افتح الكاميرا ووجّهها على رمز QR في الجهاز الثاني.</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div id="homeHistory"></div>
+
+      <p class="footnote privacy"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>النقل مباشر بين الجهازين (<span class="ltr">WebRTC</span>) — الملفات ما تنرفع على أي سيرفر.</span></p>
+      <p class="credit">
+        <a href="https://www.linkedin.com/in/omar-salharbi/" target="_blank" rel="noopener">
+          <svg class="li" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="5" fill="#0a66c2"/><path fill="#fff" d="M7.1 9.6h2.3V17H7.1zM8.25 6a1.33 1.33 0 1 1 0 2.66A1.33 1.33 0 0 1 8.25 6zM10.9 9.6h2.2v1h.03c.3-.58 1.06-1.2 2.18-1.2 2.33 0 2.76 1.53 2.76 3.53V17h-2.3v-3.6c0-.86-.02-1.97-1.2-1.97-1.2 0-1.38.94-1.38 1.9V17h-2.3z"/></svg>
+          <span class="ltr">LinkedIn</span>
+        </a>
+      </p>
+    </section>
+
+    <!-- ================= Connecting ================= -->
+    <section class="screen dial" id="dial" hidden>
+      <div class="orb">
+        <div class="radar" aria-hidden="true"><i></i><i></i><i></i></div>
+        <span class="avatar" id="dialAvatar" aria-hidden="true"></span>
+      </div>
+      <h2 class="title2" id="dialTitle" role="status">جارٍ الاتصال…</h2>
+      <p class="subhead">بالجهاز <bdi class="ltr code" id="dialCode" style="font-size:inherit"></bdi></p>
+      <p class="msg" id="dialMsg" aria-live="polite"></p>
+      <div class="dial-actions">
+        <button class="btn btn-primary btn-block" id="dialRetry" type="button" hidden>اتصال</button>
+        <button class="btn btn-plain btn-block" id="dialCancel" type="button">إلغاء</button>
+      </div>
+    </section>
+
+    <!-- ================= Session ================= -->
+    <section class="screen" id="session" hidden>
+      <header class="navbar">
+        <button class="nav-btn" id="leaveBtn" type="button">قطع الاتصال</button>
+        <div class="nav-title" role="status">
+          <span class="nav-name">متصل بـ <bdi id="peerName">…</bdi></span>
+          <span class="nav-sub"><i aria-hidden="true"></i>اتصال مباشر ومشفّر بين الجهازين</span>
+        </div>
+        <span></span>
+      </header>
+
+      <div class="session-body">
+        <input type="file" id="fileInput" multiple hidden>
+        <button class="hero" id="drop" type="button" aria-describedby="dropHint">
+          <span class="orb">
+            <span class="radar" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="avatar" id="peerAvatar" aria-hidden="true"></span>
+          </span>
+          <span class="hero-title" id="dropTitle">اختر صورًا أو فيديوهات أو ملفات</span>
+          <span class="hero-hint" id="dropHint"></span>
+        </button>
+
+        <details class="notice" id="iosTip" hidden>
+          <summary>
+            <span class="row-icon row-icon--blue" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M21 16l-5-5-8 8"/></svg></span>
+            <span>تبي الصور والفيديو بجودتها الأصلية؟</span>
+            <svg class="ic chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <div class="notice-body">
+            <p class="subhead">تطبيق «الصور» في الآيفون ممكن يحوّل الفيديو (HEVC) ويضغطه، ويحوّل الصور من HEIC إلى JPG.</p>
+            <ol class="steps">
+              <li><span>من تطبيق الصور: حدّد الملفات ← <b>مشاركة</b> ← <b>حفظ في الملفات</b>.</span></li>
+              <li><span>هنا اضغط منطقة الاختيار ← <b>اختيار ملف</b>، واختر من تطبيق الملفات.</span></li>
+            </ol>
+            <div class="notice-foot"><button class="capsule" id="tipOk" type="button">فهمت</button></div>
+          </div>
+        </details>
+
+        <div id="sessionHistory"></div>
+      </div>
+
+      <form class="composer" id="textForm">
+        <div class="composer-inner">
+          <button class="round-btn attach" id="attachBtn" type="button" aria-label="إرفاق ملفات">
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="field">
+            <label class="sr" for="textInput">نص للإرسال</label>
+            <textarea id="textInput" rows="1" enterkeyhint="send" placeholder="اكتب أو الصق نصًا أو رابطًا…"></textarea>
+            <button class="round-btn send" id="sendBtn" type="submit" aria-label="إرسال" disabled>
+              <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>
+            </button>
+          </div>
+        </div>
+        <p class="composer-hint"><span class="ltr">Enter</span> للإرسال · <span class="ltr">Shift+Enter</span> لسطر جديد</p>
+      </form>
+    </section>
+
+    <!-- Transfer list: moves between home and session, stays after disconnecting -->
+    <section class="list-section" id="history" aria-labelledby="listTitle" hidden>
+      <div class="section-head">
+        <h2 class="section-title" id="listTitle">العناصر <span class="count" id="count" hidden>0</span></h2>
+        <button class="text-btn" id="dlAll" type="button" hidden>تنزيل الكل</button>
+      </div>
+      <p class="footnote section-summary" id="summary" aria-live="polite" hidden></p>
+      <div class="group">
+        <p class="empty" id="empty">الملفات والنصوص اللي ترسلها أو تستقبلها تظهر هنا.</p>
+        <ul class="rows" id="items"></ul>
+      </div>
+      <div class="group">
+        <label class="row switch-row">
+          <span class="row-icon row-icon--green" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M12 4v12"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg></span>
+          <span class="row-main">تنزيل تلقائي</span>
+          <input class="switch" type="checkbox" role="switch" id="autoDl">
+        </label>
+      </div>
+    </section>
+  </div>
+
+  <div class="drop-overlay" id="dropOverlay" hidden>
+    <div class="box">
+      <span class="avatar" id="overlayAvatar" aria-hidden="true"></span>
+      <span>أفلت للإرسال إلى <bdi id="overlayPeer">…</bdi></span>
+      <span class="subhead">الملفات تنرسل بنفس جودتها</span>
+    </div>
+  </div>
+  <div class="hud-wrap"><span class="hud" id="toast" role="status" hidden></span></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="app.js?v=6"></script>
+</body>
+</html>
