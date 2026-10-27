@@ -29,6 +29,9 @@ python -m http.server 5173
 Then open http://localhost:5173
 
 ## Deploy
+The Vercel project is connected to this repo: every push to `main` deploys to production automatically.
+
+To deploy manually:
 ```bash
 vercel --prod
 ```
