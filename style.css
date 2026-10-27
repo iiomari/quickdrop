@@ -239,12 +239,11 @@ svg.ic { width: 1.18em; height: 1.18em; flex: none; fill: none; stroke: currentC
 .orb .radar i { width: 180px; height: 180px; }
 .avatar {
   position: relative; width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center;
-  background: linear-gradient(180deg, #5ab0ff, var(--brand)); color: #fff;
-  box-shadow: 0 12px 30px rgba(10, 132, 255, 0.35);
+  background: var(--brand); color: #fff;
 }
 .avatar svg.ic { width: 44px; height: 44px; stroke-width: 1.6; }
 .dial.is-failed .radar { display: none; }
-.dial.is-failed .avatar { background: linear-gradient(180deg, #a1a1a6, #8e8e93); box-shadow: none; }
+.dial.is-failed .avatar { background: #8e8e93; }
 .dial .msg { justify-content: center; max-width: 320px; font-size: 0.882rem; }
 .dial-actions { display: grid; gap: 4px; width: min(100%, 320px); margin-top: 14px; }
 
@@ -268,7 +267,6 @@ svg.ic { width: 1.18em; height: 1.18em; flex: none; fill: none; stroke: currentC
   padding: 30px 20px 26px; border-radius: var(--r-card); background: var(--elev); text-align: center;
   transition: box-shadow 0.15s ease, background-color 0.15s ease;
 }
-.hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 36%, var(--tint-soft), transparent 60%); }
 .hero .orb { width: 200px; height: 150px; margin: 0 0 6px; }
 .hero .orb .radar i { width: 150px; height: 150px; }
 .hero .avatar { width: 80px; height: 80px; }
@@ -277,13 +275,16 @@ svg.ic { width: 1.18em; height: 1.18em; flex: none; fill: none; stroke: currentC
 .hero-title { font-size: 1.12rem; font-weight: 700; }
 .hero-hint { font-size: 0.882rem; color: var(--label-2); }
 .hero-hint kbd { font-family: var(--mono); font-size: 0.75rem; padding: 1px 6px; border-radius: 6px; background: var(--fill); }
-.hero.is-compact { padding: 14px 16px; grid-template-columns: auto 1fr; justify-items: start; text-align: start; column-gap: 14px; }
-.hero.is-compact::before, .hero.is-compact .radar { display: none; }
-.hero.is-compact .orb { width: auto; height: auto; margin: 0; grid-row: span 2; }
-.hero.is-compact .avatar { width: 48px; height: 48px; box-shadow: none; }
-.hero.is-compact .avatar svg.ic { width: 24px; height: 24px; }
-.hero.is-compact .hero-title { font-size: 1rem; align-self: end; }
-.hero.is-compact .hero-hint { align-self: start; }
+/* Once items arrive the drop zone shrinks to a row on narrow screens; wide screens have room to keep it whole. */
+@media (max-width: 899px) {
+  .hero.is-compact { padding: 14px 16px; grid-template-columns: auto 1fr; justify-items: start; text-align: start; column-gap: 14px; }
+  .hero.is-compact .radar { display: none; }
+  .hero.is-compact .orb { width: auto; height: auto; margin: 0; grid-row: span 2; }
+  .hero.is-compact .avatar { width: 48px; height: 48px; }
+  .hero.is-compact .avatar svg.ic { width: 24px; height: 24px; }
+  .hero.is-compact .hero-title { font-size: 1rem; align-self: end; }
+  .hero.is-compact .hero-hint { align-self: start; }
+}
 .hero.is-dragover { box-shadow: inset 0 0 0 2.5px var(--brand); }
 
 /* iPhone notice */
@@ -331,8 +332,10 @@ svg.ic { width: 1.18em; height: 1.18em; flex: none; fill: none; stroke: currentC
 .item-meta { margin: 2px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0 5px; font-size: 0.765rem; color: var(--label-2); font-variant-numeric: tabular-nums; }
 .item-meta bdi { direction: ltr; }
 .item-meta .sep { opacity: 0.6; }
+/* Colour marks what needs attention: in progress and failed. Finished rows stay neutral; the sent check is the one green mark. */
 .st-active { color: var(--tint); font-weight: 500; }
-.st-done { color: var(--green-ink); font-weight: 500; }
+.st-done { color: var(--label-2); }
+.item-trail .st-done { color: var(--green-ink); }
 .st-fail { color: var(--red-ink); font-weight: 500; }
 .item-trail { display: flex; align-items: center; gap: 6px; flex: none; }
 
@@ -433,6 +436,11 @@ svg.ic { width: 1.18em; height: 1.18em; flex: none; fill: none; stroke: currentC
   .home-panes { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
   .home-panes > [role="tabpanel"][hidden] { display: block !important; }
   .pane-title { display: block; justify-self: stretch; }
+
+  /* Session: drop zone and notice stay in view beside the transfer list. */
+  .session-body { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; column-gap: 24px; }
+  .session-side { position: sticky; top: 76px; display: grid; gap: 16px; }
+  .composer-inner, .composer-hint { max-width: 928px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

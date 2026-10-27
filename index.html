@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="style.css?v=7">
+  <link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
   <div class="app">
@@ -128,6 +128,7 @@
 
       <div class="session-body">
         <input type="file" id="fileInput" multiple hidden>
+        <div class="session-side">
         <button class="hero" id="drop" type="button" aria-describedby="dropHint">
           <span class="orb">
             <span class="radar" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -152,6 +153,7 @@
             <div class="notice-foot"><button class="capsule" id="tipOk" type="button">فهمت</button></div>
           </div>
         </details>
+        </div>
 
         <div id="sessionHistory"></div>
       </div>
@@ -205,6 +207,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="app.js?v=7"></script>
+  <script src="app.js?v=8"></script>
 </body>
 </html>

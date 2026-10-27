@@ -468,7 +468,7 @@ const STATE_TEXT = {
   queued: 'في الانتظار',
   waiting: 'بانتظار التأكيد…',
   received: 'وصل',
-  sent: 'تم الإرسال ✓',
+  sent: 'تم الإرسال',
   failed: 'فشل',
 };
 const STATE_CLASS = { active: 'st-active', waiting: 'st-active', received: 'st-done', sent: 'st-done', failed: 'st-fail' };
