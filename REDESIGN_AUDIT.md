@@ -41,6 +41,27 @@ dark/light themes. Findings that conflict with it are listed under *Skipped* and
 | S1 | Settings | `index.html` `#autoDl` group | The switch has no explanation of what it does or of what changes on iPhone. | One footnote under the group saying what the switch does. | medium |
 | D1 | Security dashboard | — | Not applicable: there is no security screen. The status pill, nav subtitle and privacy footnote already state the connection state and that files never touch a server. | None. | — |
 
+## Result
+
+All findings L1–S1 are applied. Two additions came up while checking L1 at 1440px:
+
+- On desktop the two cards share a row and a bottom edge, and the "أو امسح رمز QR" row is hidden there:
+  it repeats the QR card right next to it. Phones keep it.
+- The 3 + 3 gap in the code boxes is now an empty grid column, so all six boxes are the same size.
+
+| Check | Before | After |
+| --- | --- | --- |
+| `lint.mjs --app` | 5 FAIL, 27 WARN | 0 FAIL, 19 WARN (all shadow, glass and mono flags listed below) |
+| `inspect.mjs --app` | 1 FAIL, 2 WARN | 0 FAIL, 3 WARN |
+
+The 3 remaining inspector WARNs and why they stay:
+
+- `font-fallback` (SF Mono) and `app-title-size` (34px): identity, see below.
+- `panel-void` 54px in "اتصل بجهاز آخر" on desktop: the card is stretched to match the QR card
+  beside it. The code boxes are centred and the action sits at the card's foot, the one place the
+  skill allows a stretched card to leave space. The other option, letting the card keep its own
+  height, brings back the `ragged-row` warning.
+
 ## Skipped — identity conflicts
 
 Flagged by the skill as generic, kept because they are the intended iOS / Liquid Glass identity:

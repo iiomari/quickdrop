@@ -204,7 +204,8 @@ svg.ic { width: 1.18em; height: 1.18em; flex: none; fill: none; stroke: currentC
 
 /* ---------- connect (OTP) ---------- */
 .connect { display: grid; gap: 6px; }
-.otp { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; direction: ltr; margin: 18px 0 4px; }
+/* 3 + 3 grouping: an empty middle column keeps all six boxes the same size */
+.otp { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) 0 repeat(3, minmax(0, 1fr)); gap: 8px; direction: ltr; margin: 18px 0 4px; }
 .otp input {
   position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; border: 0; padding: 0; margin: 0;
   background: transparent; color: transparent; caret-color: transparent; font-size: max(16px, 1rem);
@@ -212,11 +213,13 @@ svg.ic { width: 1.18em; height: 1.18em; flex: none; fill: none; stroke: currentC
 }
 .otp input::selection { background: transparent; }
 .otp-box {
-  aspect-ratio: 5 / 6; max-height: 64px; display: grid; place-items: center; border-radius: 12px;
+  aspect-ratio: 5 / 6; max-height: 64px; min-width: 0; display: grid; place-items: center; border-radius: 12px;
   background: var(--fill); font-family: var(--mono); font-size: 1.6rem; font-weight: 600;
   box-shadow: inset 0 0 0 1.5px transparent; transition: box-shadow 0.15s ease, background-color 0.15s ease;
 }
-.otp-box:nth-of-type(4) { margin-inline-start: 6px; }   /* 3 + 3 grouping */
+.otp-box:nth-of-type(4) { grid-column: 5; }
+.otp-box:nth-of-type(5) { grid-column: 6; }
+.otp-box:nth-of-type(6) { grid-column: 7; }
 .otp.is-focused .otp-box.is-active { box-shadow: inset 0 0 0 2px var(--brand); background: var(--elev); }
 .otp.is-focused .otp-box.is-active:empty::after {
   content: ""; width: 2px; height: 1.1em; background: var(--brand); border-radius: 1px; animation: caret 1s steps(1) infinite;
@@ -435,9 +438,18 @@ svg.ic { width: 1.18em; height: 1.18em; flex: none; fill: none; stroke: currentC
 @media (min-width: 900px) {
   .app { max-width: 960px; }
   #home .segmented { display: none; }
-  .home-panes { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
-  .home-panes > [role="tabpanel"][hidden] { display: block !important; }
+  /* The panes dissolve into one grid so the two cards and the two groups share their rows and bottom edges. */
+  .home-panes { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto; grid-auto-flow: column; gap: 18px 24px; }
+  .home-panes > [role="tabpanel"], .home-panes > [role="tabpanel"][hidden] { display: contents !important; }
+  .home-panes .group { margin-top: 0; }
+  .home-panes .group-footer { margin-top: -12px; }
+  #paneSend .group { display: none; }            /* "scan the QR" repeats the QR card beside it */
   .pane-title { display: block; justify-self: stretch; }
+  .receive { padding-top: 22px; }
+  .connect { display: flex; flex-direction: column; }
+  .connect .otp { margin: auto 0; }
+  .connect .otp-box { max-height: 84px; font-size: 2rem; }
+  .connect .msg:empty { display: none; }
 
   /* Session: drop zone and notice stay in view beside the transfer list. */
   .session-body { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; column-gap: 24px; }
