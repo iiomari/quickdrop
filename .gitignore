@@ -1,1 +1,10 @@
 .vercel
+.env
+.env.*
+*.pem
+*.key
+node_modules/
+# local agent skills (not part of the site)
+.agents/
+.claude/
+skills-lock.json
